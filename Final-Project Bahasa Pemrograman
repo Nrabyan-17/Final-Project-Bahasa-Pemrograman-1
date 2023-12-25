@@ -1,0 +1,867 @@
+package finalprojectbp2;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
+public class FinalProjectBP2 {
+
+ 
+static Scanner s1 = new Scanner (System.in);
+static Scanner s2 = new Scanner (System.in);
+
+//Array (Method Global)
+static String makanan [] = new String [30];
+static int harga [] = new int [30]; 
+
+static String carimakanan [] = new String [1000];
+static int    cariharga [] = new int [1000];
+
+//Pilih Menu
+static String pembelianmakanan [] = new String[1000];
+static int    pembelianharga [] = new int [1000];
+        
+//Jumlah Porsi
+static int jumlahporsi [] = new int [1000];
+
+//Jumlah Beli
+static int jumlahbeli = 0;
+
+//Total 
+static int totalawal [] = new int [1000];
+
+static int grandtotal = 0;
+
+//Perhitungan Kembalian
+static double jumlahuangyangdiberikan = 0, kembalianyangdidapat = 0;
+
+//Deklarasi Pengurutan
+static int tempharga;
+static String tempnama;
+static boolean swap;
+
+//Pembatas Indeks Menu
+static int batasanmenu = 12;
+
+//Owner
+static String pembeliantotalmakanan []  = new String [100];
+static int pembelianhargamakanan [] = new int [100];
+static int totaljumlahporsi [] = new int [100];
+static int totalakhir [] = new int [100];
+static int grandtotalowner = 0;
+static int pilihmenuowner = 0;
+
+//Inisialisasi tambahan
+static int indeks;
+static int pilihmenu;
+
+    //Header Struk
+   static void Headerstruk () {
+   
+    //Penambahan Waktu
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern ("hh:mm:ss dd/MM/yyyy");
+    LocalDateTime getNow = LocalDateTime.now();
+      
+      System.out.println   ("-----------------------------------------------------------------------------");
+      System.out.println   ("                               DAFTAR PEMBELIAN                              ");
+      System.out.println   ("                                ****STRUK****                                ");
+      System.out.println   ("-------------------Selamat Datang di Roti Bakar Aa' Davin 2------------------");
+      System.out.println   ("                  Jalan Penjaringan Asri 1, Penjaringan Sari                 ");
+      System.out.println   ("                       Kecamatan Rungkut, Kota Surabaya                      ");
+      System.out.println   ("                        Provinsi Jawa Timur, Indonesia                       ");
+      System.out.println   ("                           No. Telp 0851-0059-6092                           ");
+      System.out.println   ("=============================================================================");
+      System.out.println   (" Waktu dan Tanggal Pembelian:                           " + dateTimeFormatter.format(getNow));
+      System.out.println   ("=============================================================================");
+      System.out.println   ("Kode\tNama Barang:"+"  \t\t\t\tHarga:"+" \tJumlah:"+"\tTotal Awal:");
+      System.out.println   ("-----------------------------------------------------------------------------");
+        
+    }
+        
+    //Lower Struk
+    static void Lowerstruk () {
+     System.out.println   ("=============================================================================");
+     System.out.println   ("Layanan Customer Service");
+     System.out.println   ("Hubungi Nomor 0851-0059-6092");
+     System.out.println   ("Email : rotibakaraadavin2@gmail.com");
+     System.out.println   ("=============================================================================");
+     System.out.println   ("                                 ****STRUK****                               ");
+     System.out.println   ("-----------------------------------------------------------------------------");
+       
+    }
+        
+        // Looping Menu Makan
+         public static void menumakanan () {
+            for (int i = 0; i < batasanmenu ; i++) {
+                        swap = false;
+                        for (int j = 0; j < batasanmenu-1; j++) {
+                            if (makanan[j].compareToIgnoreCase (makanan[j+1]) > 0) {
+                                //Penukaran urutan data
+                                tempnama = makanan [j];
+                                makanan [j] = makanan [j+1];
+                                makanan [j+1] = tempnama;
+                                
+                                tempharga = harga[j];
+                                harga [j] = harga [j+1];
+                                harga [j+1] = tempharga;
+
+                                swap = true;
+                            }
+                        }
+                        if (swap == false) {
+                            break;
+                        }
+                    } 
+             
+            // Daftar Menu Makanan
+            System.out.println("No.\tNama Menu:"+"\t\t\t\t\tHarga:");
+            for (int i = 0; i < batasanmenu ; i++) {
+                   System.out.println((i+1)+".\t"+makanan[i]+"        \t\tRp."+harga[i]);
+               }
+            
+            System.out.println("");
+        }
+         
+         // Pegurutan Pencarian Berdasarkan Nama Menu
+        static String [] sortmenuabjad (String [] makanan, int harga [], String cari) {
+           //Array tambahan
+            int idxnama = 0;
+            
+            System.out.println("Hasil Pencarian");
+            System.out.println("No.\tNama Menu:"+"\t\t\t\tHarga:");
+            for (int i = 0; i < batasanmenu ; i++) {
+                if (makanan[i].toLowerCase().contains(cari.toLowerCase())) {
+                carimakanan[idxnama] = makanan[i];
+                cariharga [idxnama] = harga[i];
+                idxnama ++;
+                
+                System.out.println((idxnama)+".\t"+makanan[i]+"       \tRp."+harga[i]);
+                }
+            }
+            
+            if (idxnama <= 50) {
+            System.out.print  ("Silahkan pilih Menu                      : ");
+                                    
+                int pilihnama = s1.nextInt();
+                pembelianmakanan [pilihmenu] = carimakanan[pilihnama-1];
+                pembelianharga [pilihmenu] = cariharga [pilihnama-1];
+                pilihmenu++;
+
+                System.out.println("");
+
+            System.out.print  ("Beli berapa porsi                        : ");
+                int porsinama = s1.nextInt();
+                jumlahporsi [jumlahbeli] = porsinama;
+                jumlahbeli++;
+
+                for (int i = indeks; i < batasanmenu; i++) {
+                     totalawal[i] = cariharga[pilihnama-1]*jumlahporsi[i];
+                    }
+                    indeks++;
+                }
+
+                else {
+                    System.out.println("Menu tidak tersedia");
+                    }
+                                    
+                System.out.println("");
+    
+        return (carimakanan);
+    }
+        
+        //Pencarian Harga Atas dan Bawah
+        static int [] sortmenuharga (String [] makanan, int harga [], int hargaatas, int hargabawah) {
+            //inisialisai tambahan
+            int idxrange=0;
+
+            for (int i = 0; i < batasanmenu; i++) {
+            swap = false;
+            for (int j = 0; j < batasanmenu-1; j++) {
+                if (harga [j] > harga [j+1]) {
+                    tempharga = harga [j];
+                    harga [j] = harga [j+1];
+                    harga [j+1] = tempharga;
+                                
+                    tempnama = makanan [j];
+                    makanan [j] = makanan [j+1];
+                    makanan [j+1] = tempnama;
+
+                    swap = true;
+                }    
+            } 
+            if (swap == false) {
+             break;
+                }
+    
+            }
+
+           //Harga Atas & Harga bawah
+            System.out.println("No.\tNama Menu:"+"\t\t\t\tHarga:");
+            for (int i = 0; i < batasanmenu ; i++) {
+                if (harga[i] >= hargabawah && harga[i] <= hargaatas) {
+                    carimakanan[idxrange] = makanan[i];
+                    cariharga [idxrange] = harga[i];
+                    idxrange++;
+                    System.out.println((idxrange)+".\t"+makanan[i]+"        \tRp."+harga[i]);
+                    }
+                }
+            
+            System.out.println("");
+                                
+            if (idxrange <= 50) {
+            System.out.print  ("Silahkan pilih Menu                      : ");
+                int pilihrange = s1.nextInt();
+                pembelianmakanan [pilihmenu] = carimakanan[pilihrange-1];
+                pembelianharga [pilihmenu] = cariharga [pilihrange-1];
+                pilihmenu++; 
+
+                System.out.println("");
+
+            System.out.print  ("Beli berapa porsi                        : ");
+                int porsiharga = s1.nextInt();
+                jumlahporsi [jumlahbeli] = porsiharga;
+                jumlahbeli++;
+
+                for (int i = indeks; i < batasanmenu; i++) {
+                    totalawal[i] = cariharga[pilihrange-1]*jumlahporsi[i];
+                    }
+                indeks++;
+                }
+                    
+               else {
+                   System.out.println("Menu dalam range yang dimasukkan tidak tersedia");
+                }
+                                
+                System.out.println("");
+                                
+                return (cariharga);
+        }
+         
+         //Pengurutan Harga Termurah
+         public static void hargatermurah () {
+             int idxmurah = 0;
+             
+             for (int i = 0; i < batasanmenu; i++) {
+                swap = false;
+                for (int j = 0; j < batasanmenu-1; j++) {
+                    if (harga [j] > harga [j+1]) {
+                        tempharga = harga [j];
+                        harga [j] = harga [j+1];
+                        harga [j+1] = tempharga;
+
+                        tempnama = makanan [j];
+                        makanan [j] = makanan [j+1];
+                        makanan [j+1] = tempnama;
+
+                        swap = true;
+                    }    
+                }
+
+                if (swap == false) {
+                    break;
+                 }
+        }
+            
+            //Pengurutan Harga Termurah
+            System.out.println("No.\tNama Barang:"+"\t\t\t\t\tHarga:");
+            for (int i = 0; i < batasanmenu ; i++) {
+                carimakanan [idxmurah] = makanan [i];
+                cariharga [idxmurah] = harga [i];
+                
+                idxmurah++;
+                System.out.println((idxmurah)+".\t"+makanan[i]+"        \t\tRp."+harga[i]);
+            }
+            
+            if (idxmurah <= 12) {
+            System.out.print  ("Silahkan pilih Menu                      : ");
+                int pilihmurah = s1.nextInt();
+                pembelianmakanan [pilihmenu] = carimakanan[pilihmurah-1];
+                pembelianharga [pilihmenu] = cariharga [pilihmurah-1];
+                pilihmenu++; 
+
+                System.out.println("");
+
+            System.out.print  ("Beli berapa porsi                        : ");
+                int porsimurah= s1.nextInt();
+                jumlahporsi [jumlahbeli] = porsimurah;
+                jumlahbeli++;
+
+                for (int i = indeks; i < makanan.length; i++) {
+                        totalawal[i] = cariharga[porsimurah-1]*jumlahporsi[i];
+                    }
+                    indeks++;
+                }
+                    
+                 else {
+                    System.out.println("Menu dalam range yang dimasukkan tidak tersedia");
+                    }
+         }
+         
+         //Pengurutan Harga Termahal
+         public static void hargatermahal () {
+            int idxmahal = 0;
+             
+             for (int i = 0; i < batasanmenu - 1; i++) {
+        int idxMahal = i;
+        for (int j = i + 1; j < batasanmenu; j++) {
+            if (harga[j] > harga[idxMahal]) {
+                idxMahal = j;
+            }
+        }
+        // Tukar posisi harga
+        int tempHarga = harga[idxMahal];
+        harga[idxMahal] = harga[i];
+        harga[i] = tempHarga;
+
+        // Tukar posisi nama makanan
+        String tempMakanan = makanan[idxMahal];
+        makanan[idxMahal] = makanan[i];
+        makanan[i] = tempMakanan;
+    }
+         
+            //Pengurutan Harga Termahal
+            System.out.println("No\tNama Menu:"+"\t\t\t\t\tHarga:");
+            for (int i = 0; i < batasanmenu ; i++) {
+                carimakanan [idxmahal] = makanan [i];
+                cariharga [idxmahal]   = harga [i];
+                
+                idxmahal++;
+                System.out.println((idxmahal)+".\t"+makanan[i]+"        \t\tRp."+harga[i]);
+            }
+            
+            if (idxmahal <= 12) {
+            System.out.print  ("Silahkan pilih Menu                      : ");
+                int pilihamahal = s1.nextInt();
+                pembelianmakanan [pilihmenu] = carimakanan[pilihamahal-1];
+                pembelianharga [pilihmenu] = cariharga [pilihamahal-1];
+                pilihmenu++; 
+
+                System.out.println("");
+
+            System.out.print  ("Beli berapa porsi                        : ");
+                int porsimahal= s1.nextInt();
+                jumlahporsi [jumlahbeli] = porsimahal;
+                jumlahbeli++;
+
+                for (int i = indeks; i > makanan.length; i++) {
+                        totalawal[i] = cariharga[porsimahal-1]*jumlahporsi[i];
+                    }
+                    indeks++;
+                }
+                    
+                 else {
+                    System.out.println("Menu dalam range yang dimasukkan tidak tersedia");
+                    }
+         }
+         
+         //Penggantian Harga
+         static void admin () {
+             int ubahindeks = 0, ubahharga = 0;
+             
+            System.out.print  ("Silahkan pilih menu (input dengan nomor) : ");
+             ubahindeks = s1.nextInt();
+             
+             ubahindeks--;
+             
+             System.out.println("");
+             
+            System.out.print  ("Masukkan harga baru                      : ");
+             ubahharga = s1.nextInt();
+
+             harga[ubahindeks] = ubahharga;
+             
+             System.out.println("");
+             
+             menumakanan();
+        }
+        
+    //Struk Owner
+    static void strukowner () {
+    Headerstruk ();
+                    
+    for (int i = 0; i < pilihmenuowner; i++) {
+
+    System.out.println((i+1)+".\t"+pembelianmakanan [i]+"       \t"+pembelianhargamakanan[i]+"\t  "+totaljumlahporsi[i]+"\t  "+totalakhir[i]);
+                    }           
+
+      System.out.println   ("=============================================================================");
+      System.out.println   ("Total Akhir                                 : Rp."+grandtotalowner);
+                    
+      Lowerstruk ();
+        
+    }
+        
+    //Cetak Struk Belanja
+    static void struk (){
+    Headerstruk();
+                    
+    pilihmenuowner += pilihmenu;
+    for (int i = 0; i < pilihmenu; i++) {
+    grandtotal += totalawal[i];
+    System.out.println((i+1)+".\t"+pembelianmakanan[i]+"       \t"+pembelianharga[i]+"\t  "+jumlahporsi[i]+"\t  "+totalawal[i]);
+
+                    pembeliantotalmakanan [i] += pembelianmakanan [i];
+                    pembelianhargamakanan [i] += pembelianharga[i];
+                    totaljumlahporsi [i] += jumlahporsi[i];
+                    totalakhir [i] += totalawal [i];
+                    
+                }           
+                    grandtotalowner += grandtotal;
+                    
+                    System.out.println   ("============================================================================");
+                    System.out.println   ("Total Akhir                                 : Rp."+grandtotal);
+                    System.out.println   ("============================================================================");
+                    
+                            
+                        //Uang yang dibayarkan
+            System.out.print     ("Masukkan jumlah uang yang anda bayarkan     : Rp.");
+                        jumlahuangyangdiberikan = s1.nextDouble();
+                    
+                        System.out.println("");
+                        
+                        //Keterangan dari uang yang diberikan 
+                        if (jumlahuangyangdiberikan == grandtotal){
+                            System.out.println("Uang yang diberikan Pas");
+                        }
+                        else if (jumlahuangyangdiberikan > grandtotal){
+                            System.out.println("Uang yang diberikan kelebihan alias Kembali");
+                        }
+                        else if (jumlahuangyangdiberikan<grandtotal){
+                            System.out.println("Uang yang diberikan Kurang!!! ");
+                        }
+                        else {
+                            System.out.println("Mohon input uang yang dibayarkan dengan benar!!! ");
+                        }
+
+                        System.out.println("");
+
+            
+           //Menghitung jumlah kembalian
+            
+           kembalianyangdidapat = jumlahuangyangdiberikan - grandtotal;
+           if (kembalianyangdidapat > 0){
+           System.out.println("Kembalian uang yang anda dapatkan            : Rp."+kembalianyangdidapat);
+            }
+           else if (kembalianyangdidapat == 0) {
+           System.out.println("Uang yang diberikan Pas                      : Rp."+kembalianyangdidapat);
+            }
+           else {
+           System.out.println("Mohon maaf uang anda kurang                  : Rp."+kembalianyangdidapat);
+            }    
+                        
+           Lowerstruk ();
+                    
+        }
+        
+       
+    public static void main(String[] args) {
+    //Password untuk akses semua Program
+    String passwordinputkasir, passwordinputadmin, passwordinputowner;
+    String passwordkasir = "B0011";
+    String passwordadmin = "B0028";
+    String passwordowner = "B0031";
+    String passwordkasirlama, passwordadminlama, passwordownerlama;
+    String passwordkasirbaru, passwordadminbaru, passwordownerbaru;
+    
+    
+    int pilihpasswordbaru = 0;     
+         
+        //Inisialisasi array
+        
+        makanan [0] = "Roti Bakar Cokelat + Keju";
+        harga   [0] = 18000;
+        
+        makanan [1] = "Roti Bakar Cokelat + kacang";
+        harga   [1] = 23000;
+        
+        makanan [2] = "Roti Bakar Cokelat + Tiramissu";
+        harga   [2] = 20000;
+        
+        makanan [3] = "Roti Bakar Cappucino + keju";
+        harga   [3] = 22000;
+        
+        makanan [4] = "Roti Bakar Blueberry + Cokelat";
+        harga   [4] = 26000;
+        
+        makanan [5] = "Roti Bakar Cokelat Mente + Keju";
+        harga   [5] = 30000;
+        
+        makanan [6] = "Roti Bakar Keju + Tiramissu";
+        harga   [6] = 28000;
+        
+        makanan [7] = "Roti Bakar Keju + Nutela";
+        harga   [7] = 31000;
+        
+        makanan [8] = "Roti Bakar Pisang + Milo";
+        harga   [8] = 25000;
+        
+        makanan [9] = "Roti Bakar Vanilla + Durian";
+        harga   [9] = 24000;
+        
+        makanan[10] = "Roti Bakar Cokelat Susu + Keju";
+        harga  [10] = 35000;
+        
+        makanan[11] = "Roti Bakar Keju Susu + Oreo";
+        harga  [11] = 23000;
+        
+        
+        //Pilih Program, Menu, dan Submenu
+        int pilihprogramutama = 0, pilihprogramadmin = 0, pilihprogramowner = 0;
+        int pilihkasir = 0;
+        int pilihlanjutannama = 0, pilihlanjutanharga = 0;
+        
+        //Deklarasi Tambahan Admin
+        int indekshapus = 12;
+        
+        System.out.println   ("Selamat Datang di Roti bakar Aa' Davin 2");
+        System.out.println   ("Di Roti bakar Aa' Davin 2 dapat menerima pesanan secara Online maupun Offline");
+        
+        System.out.println   ("");
+        
+        do {
+            pilihmenu = 0; 
+            indeks = 0;
+            
+            System.out.println("\nProgram Mode User: ");
+            System.out.println("1. Kasir");
+            System.out.println("2. Admin");
+            System.out.println("3. Owner");
+            System.out.println("4. Exit");
+            System.out.print  ("Silahkan Pilih Program yang diinginkan   : ");
+            pilihprogramutama=s1.nextInt();
+            
+            System.out.println("");    
+            
+            switch (pilihprogramutama) {
+                case 1 : //Program Kasir
+            System.out.print  ("Masukkan Kode Akses Kasir                : ");
+                    passwordinputkasir = s1.next();
+                    
+                    System.out.println("");
+                    
+                    if (passwordinputkasir.equals(passwordkasir)) {
+                        
+                    do {
+                       System.out.println("Program Menu:");
+                       System.out.println("1. Daftar Menu Makanan");
+                       System.out.println("2. Cari Makanan (Berdasarkan nama)");
+                       System.out.println("3. Cari Makanan (Berdasarkan Harga Bawah dan Harga Atas)");
+                       System.out.println("4. Berdasarkan Harga Termurah");
+                       System.out.println("5. Berdasarkan Harga Termahal");
+                       System.out.println("6. Cetak Struk");
+                       System.out.println("7. Selesai");
+            System.out.print  ("Silahkan pilih program menu              : ");
+                       pilihkasir = s1.nextInt();
+
+                       System.out.println("");
+
+            switch (pilihkasir) {
+                
+                case 1 : //Menu Default
+                    
+                    menumakanan();
+                    System.out.println("");
+                    break;
+                               
+                case 2 : //Cari Makanan
+                    
+            System.out.print  ("Cari Makanan                             : ");
+                    String cari = s1.next();
+                                
+                    System.out.println("");
+                                        
+                        //Transaksi
+                        do {
+                            System.out.println("Daftar Makanan Berdasarkan Nama:");
+                            System.out.println("1. Pilih Menu");
+                            System.out.println("2. Selesai");
+            System.out.print  ("Silahkan pilih                           : ");
+                            pilihlanjutannama = s1.nextInt();
+
+                            System.out.println("");
+
+            switch (pilihlanjutannama) {
+                
+                case 1 :
+                  
+                    sortmenuabjad (makanan, harga, cari);
+                    break;
+                
+                case 2 :
+                    System.out.println("Terimakasih");
+                    System.out.println("");
+                    break;
+                    
+                    }
+                
+                }while (pilihlanjutannama != 2);
+                                  
+                    break;
+                           
+                case 3 : //Harga Bawah & Harga Atas
+                               
+            System.out.print  ("Masukkan harga bawah                     : ");
+                    int hargabawah = s1.nextInt();
+
+                    System.out.println("");
+                               
+            System.out.print  ("Masukkan harga atas                      : ");
+                               int hargaatas = s1.nextInt();
+
+                               System.out.println("");
+
+                    //Transaksi
+                               
+                    do {
+                            
+                        System.out.println("Daftar makanan dalam range harga "+hargabawah + " - " + hargaatas);
+                        System.out.println("1. Pilih Menu");
+                        System.out.println("2. Selesai");
+            System.out.print  ("Silahkan dipilih                         : ");
+                        pilihlanjutanharga = s1.nextInt();
+
+                        System.out.println("");
+
+                                   switch (pilihlanjutanharga) {
+                                       
+                                        case 1 :
+                                           sortmenuharga (makanan, harga, hargaatas, hargabawah);
+                                           break;
+                                        case 2 :
+                                           System.out.println("Terimakasih");
+                                           System.out.println("");
+                                           break; 
+                                   }
+                               }while (pilihlanjutanharga != 2);
+                                 
+                               break;
+                           case 4 : //Harga Termurah
+                                  hargatermurah();
+                                  System.out.println("");
+                               break;
+                           case 5 : //Harga Termahal
+                                  hargatermahal();
+                                  System.out.println("");
+                               break;
+                           case 6 : //Cetak Struk
+                               struk ();
+                               break;
+                           case 7 : //Selesai
+                               System.out.println("Terimakasih telah berbelanja Di Roti Bakar Aa' Davin 2");
+                               
+                               break;
+                            }
+                       
+                        }while (pilihkasir != 7);
+                    }
+                   
+                    break;
+                case 2 : //Program Admin
+            System.out.print  ("Masukkan Kode Akses Admin                : ");
+                    passwordinputadmin = s1.next();
+
+                    System.out.println("");
+
+                    if (passwordinputadmin.equals(passwordadmin)) {
+                            do {
+                            System.out.println("\nMenu Admin:");
+                            System.out.println("1. Ubah Harga");
+                            System.out.println("2. Menambah Menu");
+                            System.out.println("3. Menghapus Menu");
+                            System.out.println("4. Selesai");
+            System.out.print  ("Silahkan pilih                           : ");
+                            pilihprogramadmin = s1.nextInt();
+                            
+                            System.out.println("");
+                            
+                            switch (pilihprogramadmin) {
+                                
+                                case 1 :
+                                        menumakanan(); 
+
+                                        admin();
+
+                                        System.out.println("");
+
+                                    break;
+                                
+                                case 2 : //Menambah Menu   
+                                        menumakanan();
+                                    
+                                        int indekstambah=indekshapus;
+                                    
+                                        batasanmenu++;
+       
+            System.out.print  ("Masukkan Menu Baru                       : ");
+                                        makanan[indekstambah] = s2.nextLine();
+
+            System.out.print  ("Masukkan Harga Baru                      : ");
+                                        harga[indekstambah] = s1.nextInt();
+
+                                        System.out.println("");
+
+                                        menumakanan();
+
+                                    break;
+                                
+                                case 3 : //Menghapus Menu
+                                    
+                                    menumakanan();
+
+            System.out.print  ("Hapus Makanan (input urutan nomor)       : ");
+                                      indekshapus = s1.nextInt();
+                                      indekshapus--;
+
+                                      for (int i = indekshapus; i < batasanmenu-1; i++) {
+                                        makanan [i] = makanan [i+1];
+                                        harga [i] = harga [i+1];
+                                        }
+
+                                        makanan[makanan.length-1] = null;
+                                        harga[harga.length-1] = 0;
+                                        batasanmenu--;
+                                        
+                                       System.out.println("");
+                                        
+                                        System.out.println("Hasil Akhir:\n");
+                                        System.out.println("No.\tNama Menu:"+"\t\t\t\t\tHarga:");
+                                        for (int i = 0; i < batasanmenu ; i++) {
+                                            System.out.println((i+1)+".\t"+makanan[i]+"        \t\tRp."+harga[i]);
+                                        }
+                                        System.out.println("");
+                                    
+                                    break;
+                                
+                                case 4 :
+                                    System.out.println("Terimakasih");
+                                    break;
+                            }
+
+                        } while (pilihprogramadmin != 4);
+                    }
+  
+                    break;
+                
+                    case 3 : //Program Owner
+            System.out.print  ("Masukkan Kode Akses Owner                : ");
+                    passwordinputowner = s1.next();
+                    
+                    System.out.println("");
+                    
+                    if (passwordinputowner.equals(passwordowner)) {
+                            do {
+                        System.out.println("Program Owner:");
+                        System.out.println("1. Total Pendapatan");
+                        System.out.println("2. Ubah Pin");
+                        System.out.println("3. Selesai");
+            System.out.print  ("Silahkan Pilih                           : ");
+
+                        pilihprogramowner= s1.nextInt();  
+
+                        System.out.println("");
+
+                        switch (pilihprogramowner) {
+                            
+                            case 1 : //Total Pendapatan
+                                strukowner ();
+                                break;
+                            
+                            case 2 : //Ubah Password
+                            System.out.println("1. Password Kasir");
+                            System.out.println("2. Password Admin");
+                            System.out.println("3. Password Owner");
+                            System.out.println("4. Selesai");
+            System.out.print  ("Silahkan Pilih                           : ");
+                            pilihpasswordbaru = s1.nextInt();
+
+                            System.out.println("");
+                            
+                            switch (pilihpasswordbaru) {
+                                
+                            case 1 :
+                                    
+            System.out.print  ("Masukkan Kode Akses Kasir sebelumnya     : ");
+                             passwordkasirlama = s1.next();
+                                    
+                             System.out.println("");
+                                    
+                                if (passwordkasirlama.equals(passwordkasir)) {
+                                        
+            System.out.print  ("Masukkan Kode Akses Kasir Yang Baru      : ");
+                                 passwordkasirbaru = s1.next();
+                                        
+                                 System.out.println("");
+
+            System.out.println("Kode Akses Kasir Terbaru telah berhasil diubah      : "+passwordkasirbaru);
+                                        
+                                 System.out.println("");
+                                    
+                                }
+                                    
+                                else {
+                                        System.out.println("Kode Akses Kasir yang anda masukkan salah!!!");
+                                        System.out.println("");
+                                }
+                                    
+                                  break;
+                                
+                            case 2 :
+                                   
+            System.out.print  ("Masukkan Kode Akses Admin sebelumnya     : ");
+                                 passwordadminlama = s1.next();
+                                    
+                                    
+                                 System.out.println("");
+                                    
+                                if (passwordadminlama.equals(passwordadmin)) {
+            System.out.print  ("Masukkan Kode Akses Admin Yang Baru      : ");
+                                    passwordadminbaru = s1.next();
+                                        
+                                    System.out.println("");
+
+    System.out.println("Kode Akses Admin Terbaru telah berhasil diubah     : "+passwordadminbaru);
+                                    System.out.println("");
+                                    }
+                                    
+                                else {
+                                    System.out.println("Kode Akses Admin yang anda masukkan salah!!!");
+                                    System.out.println("");
+                                    }
+                                    break;
+                                
+                            case 3 :
+                                    
+            System.out.print  ("Masukkan Kode Akses Owner sebelumnya     : ");
+                                    passwordownerlama = s1.next();
+                                    
+                                    System.out.println("");
+                                   
+                               if (passwordownerlama.equals(passwordowner)) {
+            System.out.print  ("Masukkan Kode Akses Owner Yang Baru      : ");
+                                   passwordownerbaru = s1.next();
+                                        
+                                   System.out.println("");
+
+            System.out.println("Kode Akses Owner Terbaru telah berhasil diubah       : "+passwordownerbaru);
+                                        
+                                   System.out.println("");
+                                    
+                                }
+                                    
+                                else {
+                                      System.out.println("Kode Akses Ownwer yang anda masukkan salah!!!");
+                                      System.out.println("");
+                                     }
+                                    break;
+                                }
+                                break;
+                                case 5 : //Selesai
+                                    System.out.println("Terimakasih");
+                                    break;
+                            }
+                            break;
+                            } while (pilihprogramowner != 5);
+                        }
+            }
+        } while (pilihprogramutama != 4);  
+    }
+}
+    
